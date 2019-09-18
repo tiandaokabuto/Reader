@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # reader
 
 > A Vue.js project
@@ -19,3 +20,7 @@ npm run build --report
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+=======
+# Reader
+vue开发的电子阅读器
+>>>>>>> 9aab107a556e457dc3dce76b1cd5f2a7e68ba3e8
