@@ -1,0 +1,18 @@
+1.在命令行工具中输入vue init webpack reader，使用vue脚手架工具生成项目的模板。
+2.epubjs是阅读器引擎，用npm install epubjs --save下载。
+3.npm install node-sass sass-loader --save-dev添加sass的模块，-dev会把引用添加到package.json的
+  devDependencies里，如果不加就添加到dependencies里。
+4.在iconfont中找到适合的图标添加进工程
+5.配置静态资源服务器。
+6.viewport用来设置用户在手机上面的可视区域，vue脚手架的默认设置是width=device-width：指定viewport宽度为设备宽度，
+  initialscale=1.0：指定默认缩放比例为1：1。（问题：屏幕缩放比例没有固定，操作容易误触导致浏览器放大或者缩小）。
+  通过maximum-scale和minimum-scale限定屏幕缩放比例为1：1，通过user-scale限制用户对屏幕进行缩放。在index.html的meta
+  中设置。
+7.rem配置。rem的值相当于根元素font-size的倍数。DOMContentLoaded事件动态设置根元素font-size。
+  html.style.fontSize = window.innerWidth/10 + 'px' 。
+8.引入reset.scss和global.scss，实现px2rem方法。reset.css可以消除不同浏览器默认样式的不一致性。global.css规定
+了整个站点的公共样式、公共方法、公共参数。引入scss时报错解决办法，https://blog.csdn.net/qq_43504375/article/details/100586410。
+9.epubjs的核心工作原理。epub电子书—————epubjs————>Book对象（解析电子书）
+  Book对象（解析电子书）——————renderTo方法——————>Rendition对象（负责电子书渲染）——————>Theme对象
+  Book对象（解析电子书）————————————>Location对象（负责电子书定位，拖动进度条进行定位）
+  Book对象（解析电子书）————————————>Navigation对象（展示电子书目录）
