@@ -1,8 +1,5 @@
 <template>
   <div id="app">
-    <span class="iconfont iconfanhui"></span>
-    <span class="iconfont iconcaidan"></span>
-    <img src="./assets/logo.png">
     <router-view/>
   </div>
 </template>
