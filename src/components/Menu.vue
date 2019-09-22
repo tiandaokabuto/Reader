@@ -1,7 +1,7 @@
 <template>
   <div class="menu-bar">
     <div class="menu-wrapper" v-show="showFlag" :class="{'hide-box-shadow':this.ifSettingShow}">
-      <div class="icon-wrapper">
+      <div class="icon-wrapper" @click="showSetting(0)">
         <span class="iconfont iconcaidan icon"></span>
       </div>
       <div class="icon-wrapper" @click="showSetting(1)">
@@ -54,10 +54,17 @@
         </div>
       </div>
     </div>
+    <content-view :ifContentShow="ifContentShow"
+                  :navigation="navigation"
+                  :bookAvailable="bookAvailable"
+                  @jumpTo="jumpTo"
+                  v-show="ifContentShow"></content-view>
+    <div class="content-mask" v-show="ifContentShow" @click="hideContent"></div>
   </div>
 </template>
 
 <script>
+import Content from './Content'
 export default {
   props: {
     showFlag: Boolean,
@@ -65,22 +72,35 @@ export default {
     defaultFontSize: Number,
     themeList: Array,
     defaultTheme: String,
-    bookAvailable: Boolean
+    bookAvailable: Boolean,
+    navigation: Object
   },
   data() {
     return {
       ifSettingShow: false,
       showTag: 3,
-      progress: 0
+      progress: 0,
+      ifContentShow: false
     }
+  },
+  components: {
+    ContentView: Content
   },
   methods: {
     showSetting(tag) {
       this.showTag = tag
-      this.ifSettingShow = true
+      if (tag === 0) {
+        this.ifSettingShow = false
+        this.ifContentShow = true
+      } else {
+        this.ifSettingShow = true
+      }
     },
     hideSetting() {
       this.ifSettingShow = false
+    },
+    hideContent() {
+      this.ifContentShow = false
     },
     setFontSize(fontSize) {
       this.$emit('setFontSize', fontSize)
@@ -95,6 +115,9 @@ export default {
     },
     onProgressChange(progress) {
       this.$emit('onProgressChange', progress)
+    },
+    jumpTo(href) {
+      this.$emit('jumpTo', href)
     }
   }
 }
@@ -262,6 +285,16 @@ export default {
         text-align: center;
       }
     }
+  }
+  .content-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 101;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background: rgba(51, 51, 51, 0.8)
   }
 }
 </style>

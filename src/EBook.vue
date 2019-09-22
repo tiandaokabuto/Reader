@@ -13,8 +13,8 @@
     :fontSizeList="fontSizeList" :defaultFontSize="defaultFontSize"
     :themeList="themeList" :defaultTheme="defaultTheme"
     @setFontSize="setFontSize" @setTheme="setTheme"
-    :bookAvailabel="bookAvailable" @onProgressChange="onProgressChange"
-    :navigation="this.navigation" @jumpTo="jumpTo"></menu-bar>
+    :bookAvailable="bookAvailable" @onProgressChange="onProgressChange"
+    @jumpTo="jumpTo" :navigation="navigation"></menu-bar>
   </div>
 </template>
 
@@ -76,7 +76,8 @@ export default {
         }
       ],
       defaultTheme: 'eye',
-      bookAvailable: false
+      bookAvailable: false,
+      navigation: {}
     }
   },
   components: {
@@ -107,10 +108,12 @@ export default {
       // 默认不会生成，需要通过epubjs的钩子函数来实现
       book.ready.then(() => {
         this.navigation = book.navigation
+        console.log(this.navigation)
         return book.locations.generate()
       }).then((result) => {
         this.locations = book.locations
         this.bookAvailable = true
+        console.log(this.bookAvailable)
       })
     },
     // 上一页
@@ -130,11 +133,10 @@ export default {
     // 切换标题栏和菜单栏的显示
     changeFlag() {
       // 隐藏标题栏菜单栏
-      this.showFlag = false
-      // 隐藏菜单栏弹出来的设置
-      this.$refs.hideSetting()
-      // 隐藏目录
-      this.$refs.hideContent()
+      this.showFlag = !this.showFlag
+      if (!this.showFlag) {
+        this.$refs.Menu.hideSetting()
+      }
     },
     setFontSize(fontSize) {
       this.defaultFontSize = fontSize
@@ -160,7 +162,14 @@ export default {
     // 根据链接跳转到指定位置
     jumpTo(href) {
       this.rendition.display(href)
-      this.changeFlag()
+      this.hideTitleAndMenuShow()
+    },
+    hideTitleAndMenuShow() {
+      this.showFlag = false
+      // 隐藏菜单栏弹出来的设置
+      this.$refs.Menu.hideSetting()
+      // 隐藏目录
+      this.$refs.Menu.hideContent()
     }
   },
   mounted() {
